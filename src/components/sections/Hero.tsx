@@ -75,17 +75,20 @@ export default function Hero() {
             <span className="text-sm font-semibold text-[#E10717] uppercase tracking-wider">Ingeniería de Alto Rendimiento</span>
           </motion.div>
           
-          {/* Main heading with smooth animation */}
+          {/* Main heading - Optimized for LCP on Mobile */}
+          {/* We bypass Framer Motion on the H1 to ensure immediate rendering (LCP) */}
           <h1 
             ref={headingRef}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 gradient-title-silver text-depth"
+            className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 gradient-title-silver text-depth opacity-100"
           >
             Ingeniería de vanguardia para el <AnimatedGradientText>performance de su motor.</AnimatedGradientText>
           </h1>
           
-          {/* Subtitle */}
+          {/* Subtitle - Standard fade in */}
           <motion.p 
-            variants={fadeInUp}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
             className="text-lg md:text-xl text-[#7B7B7B] max-w-2xl mb-10 mt-8 leading-relaxed"
           >
             Superamos la reprogramación convencional para articular una solución de ingeniería integral que optimiza la arquitectura electrónica de su vehículo. Elevamos el desempeño de los modelos más exigentes mediante una hoja de ruta técnica y resultados tangibles que validan nuestra entrega de valor.

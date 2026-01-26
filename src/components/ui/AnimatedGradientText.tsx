@@ -9,34 +9,40 @@ interface AnimatedGradientTextProps {
 
 export default function AnimatedGradientText({ children, className = "" }: AnimatedGradientTextProps) {
   return (
-    <>
+    <span className={`relative inline-block overflow-hidden ${className}`}>
+      {/* Texto base invisible para ocupar espacio */}
+      <span className="opacity-0">{children}</span>
+      
+      {/* Capa animada con GPU Transform */}
       <span 
-        className={`inline relative ${className}`}
+        className="absolute top-0 left-0 w-[200%] h-full flex select-none pointer-events-none animate-gradient-gpu"
+        style={{
+          willChange: "transform",
+        }}
       >
-        <span 
-          className="inline-block bg-gradient-to-r from-[#E10717] via-[#FF4444] to-[#E10717] bg-clip-text text-transparent animate-gradient-slide"
-          style={{
-            backgroundSize: '200% auto',
-          }}
-        >
+        {/* Duplicamos el contenido para el loop infinito perfecto */}
+        <span className="w-1/2 flex justify-center bg-gradient-to-r from-[#E10717] via-[#FF4444] to-[#E10717] bg-clip-text text-transparent">
+          {children}
+        </span>
+        <span className="w-1/2 flex justify-center bg-gradient-to-r from-[#E10717] via-[#FF4444] to-[#E10717] bg-clip-text text-transparent">
           {children}
         </span>
       </span>
+
       <style jsx global>{`
-        @keyframes gradient-slide {
-          0%, 100% {
-            background-position: 0% center;
+        @keyframes gradient-gpu-slide {
+          0% {
+            transform: translateX(0%);
           }
-          50% {
-            background-position: 100% center;
+          100% {
+            transform: translateX(-50%);
           }
         }
         
-        .animate-gradient-slide {
-          animation: gradient-slide 3s ease-in-out infinite;
-          will-change: background-position;
+        .animate-gradient-gpu {
+          animation: gradient-gpu-slide 3s linear infinite;
         }
       `}</style>
-    </>
+    </span>
   );
 }
