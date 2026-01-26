@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 export default function EngineBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -119,7 +121,10 @@ export default function EngineBackground() {
     let pistons: Piston[] = [];
     const initPistons = () => {
         pistons = [];
-        const pistonCount = Math.floor(canvas.width / 150);
+        // Reduce pistons on mobile
+        const pistonCount = isMobile 
+          ? Math.min(3, Math.floor(canvas.width / 150))
+          : Math.floor(canvas.width / 150);
         const startX = (canvas.width - (pistonCount * 100)) / 2;
         
         for (let i = 0; i < pistonCount; i++) {
@@ -130,11 +135,14 @@ export default function EngineBackground() {
 
     let gears: Gear[] = [];
     const initGears = () => {
-        gears = [
-            new Gear(canvas.width * 0.1, canvas.height * 0.2, 80, 0.01),
-            new Gear(canvas.width * 0.9, canvas.height * 0.8, 120, -0.005),
-            new Gear(canvas.width * 0.5, canvas.height * 0.5, 200, 0.002), // Big central gear
-        ];
+        // Reduce gears significantly on mobile
+        gears = isMobile 
+          ? [new Gear(canvas.width * 0.5, canvas.height * 0.5, 150, 0.002)] // Just 1 central gear on mobile
+          : [
+              new Gear(canvas.width * 0.1, canvas.height * 0.2, 80, 0.01),
+              new Gear(canvas.width * 0.9, canvas.height * 0.8, 120, -0.005),
+              new Gear(canvas.width * 0.5, canvas.height * 0.5, 200, 0.002), // Big central gear
+            ];
     };
     initGears();
     

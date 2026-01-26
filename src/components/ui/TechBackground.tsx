@@ -2,9 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 export default function HeroBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -102,13 +104,14 @@ export default function HeroBackground() {
 
     // Initialize particles and waves
     const particles: Particle[] = [];
-    const particleCount = 100;
+    const particleCount = isMobile ? 20 : 100; // Reduce from 100 to 20 on mobile
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle());
     }
 
     const waves: EnergyWave[] = [];
-    for (let i = 0; i < 3; i++) {
+    const waveCount = isMobile ? 1 : 3; // Reduce from 3 to 1 on mobile
+    for (let i = 0; i < waveCount; i++) {
       waves.push(new EnergyWave(currentCanvas.height * 0.3 + i * 150));
     }
 
@@ -157,8 +160,8 @@ export default function HeroBackground() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, currentCanvas.width, currentCanvas.height);
 
-      // Draw technical grid (static)
-      if (frame % 60 === 0) {
+      // Draw technical grid (static) - Skip on mobile for performance
+      if (!isMobile && frame % 60 === 0) {
         drawTechnicalGrid();
       }
 

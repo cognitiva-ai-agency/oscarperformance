@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 export const TracingBeam = ({
   children,
@@ -10,6 +11,7 @@ export const TracingBeam = ({
   children: React.ReactNode;
   className?: string;
 }) => {
+  const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -39,6 +41,15 @@ export const TracingBeam = ({
       damping: 90,
     }
   );
+
+  // On mobile, skip the expensive beam animation entirely
+  if (isMobile) {
+    return (
+      <div className={cn("relative w-full max-w-4xl mx-auto h-full", className)}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <motion.div

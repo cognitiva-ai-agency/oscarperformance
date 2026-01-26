@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 interface Particle {
   x: number;
@@ -15,6 +16,7 @@ export default function AutomotiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const scrollSpeedRef = useRef(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -33,7 +35,10 @@ export default function AutomotiveBackground() {
 
     // Initialize particles
     const initParticles = () => {
-      const particleCount = Math.min(50, Math.floor(window.innerWidth / 30));
+      // Reduce particles significantly on mobile for better performance
+      const particleCount = isMobile 
+        ? 10 
+        : Math.min(50, Math.floor(window.innerWidth / 30));
       particlesRef.current = [];
 
       for (let i = 0; i < particleCount; i++) {
@@ -64,7 +69,21 @@ export default function AutomotiveBackground() {
     window.addEventListener("scroll", handleScroll);
 
     // Animation loop
-    const animate = () => {
+    let lastFrameTime = 0;
+    const targetFPS = isMobile ? 30 : 60; // Limit to 30fps on mobile
+    const frameInterval = 1000 / targetFPS;
+
+    const animate = (currentTime: number = 0) => {
+      // Framerate limiting
+      const deltaTime = currentTime - lastFrameTime;
+      
+      if (deltaTime < frameInterval) {
+        requestAnimationFrame(animate);
+        return;
+      }
+      
+      lastFrameTime = currentTime - (deltaTime % frameInterval);
+
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 

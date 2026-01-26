@@ -9,6 +9,7 @@ import Button from "../ui/Button";
 import AnimatedGradientText from "../ui/AnimatedGradientText";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { smoothScrollTo } from "@/lib/smoothScroll";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 import EngineBackground from "../ui/EngineBackground";
 
@@ -17,9 +18,19 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Hero() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Smooth heading animation
+    // Simplify or skip animations on mobile
+    if (isMobile) {
+      // On mobile, just fade in without heavy GSAP animations
+      if (headingRef.current) {
+        headingRef.current.style.opacity = "1";
+      }
+      return;
+    }
+
+    // Smooth heading animation (desktop only)
     if (headingRef.current) {
       gsap.fromTo(
         headingRef.current,
@@ -34,7 +45,7 @@ export default function Hero() {
       );
     }
 
-    // CTA pulse animation
+    // CTA pulse animation (desktop only)
     if (ctaRef.current) {
       gsap.to(ctaRef.current, {
         boxShadow: "0 0 40px rgba(225, 7, 23, 0.6)",
@@ -44,7 +55,7 @@ export default function Hero() {
         ease: "power2.inOut",
       });
     }
-  }, []);
+  }, [isMobile]);
 
   return (
     <section className="relative min-h-[100vh] flex items-center justify-center bg-[#000000] overflow-hidden pt-32 lg:pt-40">

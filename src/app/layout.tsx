@@ -10,15 +10,30 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Os Car Performance | Ingeniería Automotriz de Alto Rendimiento",
-  description: "Ingeniería y software de vanguardia para vehículos de alta gama. Chiptuning, gestión de emisiones, ingeniería de escape y mantenimiento electrónico. Servicio premium en Santiago y Valparaíso.",
+  metadataBase: new URL("https://www.oscarperformance.cl"),
+  title: "Os Car Performance | Libera el potencial de tu motor",
+  description: "Reprogramación de alto nivel y tecnología de precisión para vehículos de alta gama.",
   keywords: ["chiptuning", "tuning automotriz", "performance", "DPF", "EGR", "ECU", "deportivos", "autos de lujo", "Santiago", "Valparaíso"],
   authors: [{ name: "Os Car Performance" }],
   openGraph: {
-    title: "Os Car Performance | Performance sin concesiones",
-    description: "Elevamos el estándar de los vehículos más exigentes. Ingeniería y software de vanguardia.",
+    title: "Os Car Performance | Libera el potencial de tu motor",
+    description: "Reprogramación de alto nivel y tecnología de precisión para vehículos de alta gama.",
+    images: [
+      {
+        url: "/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Os Car Performance Logo",
+      },
+    ],
     type: "website",
     locale: "es_CL",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Os Car Performance | Libera el potencial de tu motor",
+    description: "Reprogramación de alto nivel y tecnología de precisión para vehículos de alta gama.",
+    images: ["/images/logo.png"],
   },
   robots: {
     index: true,
