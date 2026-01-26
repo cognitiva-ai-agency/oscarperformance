@@ -21,11 +21,15 @@ export default function Hero() {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Simplify or skip animations on mobile
-    if (isMobile) {
-      // On mobile, just fade in without heavy GSAP animations
+    // FIX: Check media query directly to avoid race condition with useIsMobile hook
+    // This ensures we NEVER run desktop animations on mobile, even for a split second
+    const isMobileDevice = window.matchMedia("(max-width: 768px)").matches;
+
+    if (isMobileDevice) {
       if (headingRef.current) {
+        // Ensure strictly visible on mobile
         headingRef.current.style.opacity = "1";
+        headingRef.current.style.transform = "none";
       }
       return;
     }
@@ -55,7 +59,7 @@ export default function Hero() {
         ease: "power2.inOut",
       });
     }
-  }, [isMobile]);
+  }, []); // Run once on mount
 
   return (
     <section className="relative min-h-[100vh] flex items-center justify-center bg-[#000000] overflow-hidden pt-32 lg:pt-40">

@@ -40,7 +40,7 @@ export default function Header() {
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ease-in-out ${
         isScrolled 
           ? "py-4 bg-[#000000]/80 backdrop-blur-md shadow-2xl" 
           : "py-4 md:py-8 bg-[#000000]/60 backdrop-blur-sm"
