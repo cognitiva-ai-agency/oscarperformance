@@ -69,8 +69,10 @@ export default function Header() {
             <Image
               src="/images/logo.png"
               alt="Os Car Performance"
-              width={360}
-              height={120}
+              width={252}
+              height={84}
+              sizes="(max-width: 768px) 180px, 252px"
+              quality={90}
               className={`transition-all duration-500 ${isScrolled ? "h-16" : "h-24"} w-auto`}
               priority
             />

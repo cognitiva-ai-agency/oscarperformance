@@ -1,0 +1,8 @@
+# Browserslist for modern browsers (ES2020+)
+# This eliminates unnecessary polyfills (Array.at, Object.fromEntries, etc.)
+
+> 0.5%
+last 2 versions
+not dead
+not IE 11
+not op_mini all
