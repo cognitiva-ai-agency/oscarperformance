@@ -21,20 +21,23 @@ export default function Hero() {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // FIX: Check media query directly to avoid race condition with useIsMobile hook
-    // This ensures we NEVER run desktop animations on mobile, even for a split second
+    // Optimized for Mobile LCP:
+    // We check purely via JS to ensure we don't accidentally run heavy GSAP animations
+    // The CSS already handles the initial state opacity for mobile via media queries ideally,
+    // but here we enforce it.
+    
     const isMobileDevice = window.matchMedia("(max-width: 768px)").matches;
 
     if (isMobileDevice) {
-      if (headingRef.current) {
-        // Ensure strictly visible on mobile
-        headingRef.current.style.opacity = "1";
-        headingRef.current.style.transform = "none";
-      }
-      return;
+        // Force immediate visibility for LCP
+        if (headingRef.current) {
+            headingRef.current.style.opacity = "1";
+            headingRef.current.style.transform = "none";
+        }
+        return; // EXIT: Do not run any GSAP on mobile
     }
 
-    // Smooth heading animation (desktop only)
+    // Smooth heading animation (DESKTOP ONLY)
     if (headingRef.current) {
       gsap.fromTo(
         headingRef.current,
