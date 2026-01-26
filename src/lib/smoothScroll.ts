@@ -13,15 +13,15 @@ export const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement | HTMLEleme
 
     const startPosition = window.pageYOffset;
     const distance = offsetPosition - startPosition;
-    const duration = 700; // 0.7s for faster, snappier effect
+    const duration = 500; // 0.5s for immediate response
     let start: number | null = null;
 
     function animation(currentTime: number) {
       if (start === null) start = currentTime;
       const timeElapsed = currentTime - start;
       
-      // Easing function (easeInOutCubic) for harmonic feel
-      const ease = (t: number) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+      // Easing function (easeOutExpo) for instant start, no lag
+      const ease = (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
       
       const run = ease(Math.min(timeElapsed / duration, 1));
       
