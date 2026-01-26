@@ -20,9 +20,9 @@ export const metadata: Metadata = {
     description: "Reprogramación de alto nivel y tecnología de precisión para vehículos de alta gama.",
     images: [
       {
-        url: "/images/logo.png",
-        width: 1200,
-        height: 630,
+        url: "/images/og-image.jpg",
+        width: 1080,
+        height: 1080,
         alt: "Os Car Performance Logo",
       },
     ],
@@ -33,7 +33,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Os Car Performance | Libera el potencial de tu motor",
     description: "Reprogramación de alto nivel y tecnología de precisión para vehículos de alta gama.",
-    images: ["/images/logo.png"],
+    images: ["/images/og-image.jpg"],
+  },
+  icons: {
+    icon: "/images/og-image.jpg",
+    apple: "/images/og-image.jpg",
   },
   robots: {
     index: true,
