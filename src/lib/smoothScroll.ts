@@ -13,7 +13,7 @@ export const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement | HTMLEleme
 
     const startPosition = window.pageYOffset;
     const distance = offsetPosition - startPosition;
-    const duration = 1500; // 1.5s for slower, smoother effect
+    const duration = 700; // 0.7s for faster, snappier effect
     let start: number | null = null;
 
     function animation(currentTime: number) {

@@ -44,7 +44,7 @@ export default function BrandsClient({ brands }: BrandsClientProps) {
               key={`${brand.logo}-${index}`}
               className="flex-shrink-0 mx-8 md:mx-12"
             >
-              <div className="h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity duration-300">
+              <div className="h-16 flex items-center justify-center transition-opacity duration-300">
                 <Image
                   src={brand.logo}
                   alt={`${brand.name} logo`}
