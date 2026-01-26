@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Container from "./ui/Container";
 import Button from "./ui/Button";
+import { smoothScrollTo } from "@/lib/smoothScroll";
 
 const navLinks = [
   { name: "Nosotros", href: "#nosotros" },
@@ -13,22 +13,23 @@ const navLinks = [
   { name: "Ventajas", href: "#diferencia" },
 ];
 
-import { smoothScrollTo } from "@/lib/smoothScroll";
-
-// ... existing imports
-
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      // Toggle class based on scroll position - lightweight check
+      if (window.scrollY > 50) {
+        if (!isScrolled) setIsScrolled(true);
+      } else {
+        if (isScrolled) setIsScrolled(false);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isScrolled]); // Depend on isScrolled to avoid unnecessary setStates
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     smoothScrollTo(e, href);
@@ -36,72 +37,62 @@ export default function Header() {
   };
 
   return (
-    <motion.header
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ease-in-out ${
         isScrolled 
           ? "py-4 bg-[#000000]/80 backdrop-blur-md shadow-2xl" 
           : "py-4 md:py-8 bg-[#000000]/60 backdrop-blur-sm"
       }`}
     >
-      {/* ... existing border code ... */}
-      {isScrolled && (
-        <motion.div 
-          layoutId="header-border"
-          className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#E10717]/50 to-transparent"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        />
-      )}
+      {/* Scroll Border Indicator - Pure CSS Transition */}
+      <div 
+        className={`absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#E10717]/50 to-transparent transition-opacity duration-500 ${
+          isScrolled ? "opacity-100" : "opacity-0"
+        }`}
+      />
 
       <Container>
         <nav className="flex items-center justify-between transition-all duration-500">
           {/* Logo Container */}
-          <motion.a 
+          <a 
             href="#" 
-            className="flex items-center"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.2 }}
-            onClick={(e) => handleNavClick(e as any, "#")}
+            className="flex items-center transform transition-transform duration-200 hover:scale-105"
+            onClick={(e) => handleNavClick(e, "#")}
           >
             <Image
               src="/images/logo.png"
               alt="Os Car Performance"
               width={252}
               height={84}
+              /* 
+                 Aggressive optimization for mobile LCP:
+                 - Mobile (< 768px): loads ~150px-180px version
+                 - Desktop (> 768px): loads full 252px version
+              */
               sizes="(max-width: 768px) 180px, 252px"
-              quality={90}
+              quality={85}
               className={`transition-all duration-500 ${isScrolled ? "h-16" : "h-24"} w-auto`}
               priority
             />
-          </motion.a>
+          </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-10">
-            {navLinks.map((link, idx) => (
-              <motion.a
+            {navLinks.map((link) => (
+              <a
                 key={link.name}
                 href={link.href}
-                onClick={(e) => handleNavClick(e as any, link.href)}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * idx + 0.5, duration: 0.5 }}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="relative group text-sm uppercase tracking-[0.2em] font-medium"
               >
                 <span className="text-[#7B7B7B] group-hover:text-white transition-colors duration-300">
                   {link.name}
                 </span>
                 <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#E10717] transition-all duration-300 group-hover:w-full" />
-              </motion.a>
+              </a>
             ))}
             
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-            >
+            <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-300 fill-mode-backwards">
               <Button 
                 variant="primary" 
                 size="sm" 
@@ -114,7 +105,7 @@ export default function Header() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </Button>
-            </motion.div>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -139,21 +130,18 @@ export default function Header() {
           </button>
         </nav>
 
-        {/* Mobile Menu */}
-        <motion.div
-          initial={false}
-          animate={{ 
-            height: isMobileMenuOpen ? "auto" : 0,
-            opacity: isMobileMenuOpen ? 1 : 0
-          }}
-          className="md:hidden overflow-hidden"
+        {/* Mobile Menu - Pure CSS / Conditional rendering */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+             isMobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          }`}
         >
           <div className="py-4 space-y-4 border-t border-[#7B7B7B]/10">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                onClick={(e) => handleNavClick(e as any, link.href)}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="block text-[#7B7B7B] hover:text-white transition-colors duration-300 text-sm uppercase tracking-wider"
               >
                 {link.name}
@@ -169,8 +157,8 @@ export default function Header() {
               Cotiza Ahora
             </Button>
           </div>
-        </motion.div>
+        </div>
       </Container>
-    </motion.header>
+    </header>
   );
 }
