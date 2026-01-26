@@ -43,7 +43,7 @@ export default function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
         isScrolled 
           ? "py-4 bg-[#000000]/80 backdrop-blur-md shadow-2xl" 
-          : "py-8 bg-[#000000]/60 backdrop-blur-sm"
+          : "py-4 md:py-8 bg-[#000000]/60 backdrop-blur-sm"
       }`}
     >
       {/* ... existing border code ... */}

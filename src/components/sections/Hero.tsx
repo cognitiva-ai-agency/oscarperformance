@@ -85,14 +85,12 @@ export default function Hero() {
           </h1>
           
           {/* Subtitle - Standard fade in */}
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-xl text-[#7B7B7B] max-w-2xl mb-10 mt-8 leading-relaxed"
+          {/* Subtitle - Optimized for LCP */}
+          <p 
+            className="text-lg md:text-xl text-[#7B7B7B] max-w-2xl mb-10 mt-8 leading-relaxed opacity-100 animate-in fade-in duration-1000 slide-in-from-bottom-5"
           >
             Superamos la reprogramación convencional para articular una solución de ingeniería integral que optimiza la arquitectura electrónica de su vehículo. Elevamos el desempeño de los modelos más exigentes mediante una hoja de ruta técnica y resultados tangibles que validan nuestra entrega de valor.
-          </motion.p>
+          </p>
           
           {/* CTA Buttons */}
           <motion.div 
