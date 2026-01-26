@@ -1,26 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --foreground: #ffffff;
+  --primary: #E10717;
+  --background-dark: #000000;
+  --background-medium: #1C1C1C;
+  --text-primary: #FFFFFF;
+  --text-secondary: #7B7B7B;
+  --border: #7B7B7B;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-bg-dark: var(--background-dark);
+  --color-bg-medium: var(--background-medium);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-border: var(--border);
+  --font-sans: var(--font-inter);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Apple-style premium gradients adapted to brand */
+.gradient-title-red {
+  background: linear-gradient(180deg, 
+    #FFFFFF 0%, 
+    #FF6B7A 50%,
+    #E10717 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-title-silver {
+  background: linear-gradient(180deg, 
+    #FFFFFF 0%, 
+    #E5E5E5 30%,
+    #999999 70%,
+    #666666 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-title-dark {
+  background: linear-gradient(180deg, 
+    #E10717 0%,
+    #CC0614 50%,
+    #990410 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Apple-inspired text shadows for depth */
+.text-depth {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1C1C1C;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7B7B7B;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E10717;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+/* Selection color */
+::selection {
+  background: #E10717;
+  color: #FFFFFF;
 }
