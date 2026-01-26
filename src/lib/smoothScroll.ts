@@ -1,14 +1,36 @@
 export const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement | HTMLElement>, href: string) => {
   e.preventDefault();
-  const targetId = href.replace("#", "");
-  
-  // Handle empty targetId (href="#") as scroll to top
-  const elem = targetId ? document.getElementById(targetId) : document.body;
+  // Handle empty targetId or hash only as scroll to top
+  let elem: HTMLElement | null = null;
+  let targetId = "";
+
+  if (href === "#" || href === "") {
+    elem = document.body;
+  } else {
+    try {
+      // Try finding by querySelector first (robust for #ids)
+      elem = document.querySelector(href);
+      targetId = href.replace("#", "");
+    } catch (e) {
+      // Fallback if selector is invalid
+      elem = null;
+    }
+
+    if (!elem && targetId) {
+      // Fallback to ID directly
+      elem = document.getElementById(targetId);
+    }
+  }
   
   // Use scroll to top logic if target is body or empty href
-  if (!targetId || elem) {
+  if (elem || (!targetId && href === "#")) {
+    // Safety check: if elem is still null here and it's not a scroll-to-top, return
+    if (!elem && targetId) return; 
+    
+    // Ensure elem is valid for getting rect
+    const targetElem = elem || document.body;
     const headerOffset = 100;
-    const elementPosition = targetId ? elem!.getBoundingClientRect().top : -window.pageYOffset; // If top, relative pos is negative current scroll
+    const elementPosition = targetId ? targetElem.getBoundingClientRect().top : -window.pageYOffset; // If top, relative pos is negative current scroll
     const offsetPosition = elementPosition + window.pageYOffset - (targetId ? headerOffset : 0); // No offset for top
 
     const startPosition = window.pageYOffset;

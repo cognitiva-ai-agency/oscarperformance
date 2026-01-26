@@ -5,9 +5,9 @@ import { useState } from "react";
 import Container from "../ui/Container";
 import Button from "../ui/Button";
 import AnimatedGradientText from "../ui/AnimatedGradientText";
-import { fadeInUp, staggerContainer, slideInLeft, slideInRight } from "@/lib/animations";
+import { fadeInUp, staggerContainer } from "@/lib/animations";
 
-export default function Contact() {
+export default function Cotiza() {
   const [formData, setFormData] = useState({
     nombre: "",
     email: "",
@@ -17,6 +17,7 @@ export default function Contact() {
     modelo: "",
     anio: "",
     motor: "",
+    combustible: "Bencina",
     mensaje: "",
   });
   
@@ -30,13 +31,16 @@ export default function Contact() {
     });
   };
 
+  const setCombustible = (tipo: string) => {
+    setFormData({ ...formData, combustible: tipo });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     // Construct WhatsApp message
-    // Construct WhatsApp message
-    const { nombre, email, telefono, comuna, marca, modelo, anio, motor, mensaje } = formData;
+    const { nombre, email, telefono, comuna, marca, modelo, anio, motor, combustible, mensaje } = formData;
     const whatsappMessage = `Hola Os Car Performance, me gustaría solicitar una evaluación.
 
 *Datos del Cliente*:
@@ -47,6 +51,7 @@ export default function Contact() {
 • Vehículo: ${marca} ${modelo}
 • Año: ${anio}
 • Motor: ${motor}
+• Combustible: ${combustible}
 
 *Mensaje*:
 ${mensaje}`;
@@ -59,7 +64,9 @@ ${mensaje}`;
       
       setIsSubmitting(false);
       setSubmitted(true);
-      setFormData({ nombre: "", email: "", telefono: "", comuna: "", marca: "", modelo: "", anio: "", motor: "", mensaje: "" });
+      setFormData({ 
+        nombre: "", email: "", telefono: "", comuna: "", marca: "", modelo: "", anio: "", motor: "", combustible: "Bencina", mensaje: "" 
+      });
       
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitted(false), 5000);
@@ -67,7 +74,7 @@ ${mensaje}`;
   };
 
   return (
-    <section id="cotiza" className="relative py-24 lg:py-32 overflow-hidden">
+    <section id="cotiza" className="relative pt-8 pb-24 lg:pt-12 lg:pb-32 overflow-hidden">
       <Container className="relative z-20">
         {/* Centered Header Section */}
         <motion.div
@@ -78,13 +85,15 @@ ${mensaje}`;
           className="text-center mb-16"
         >
           <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="w-12 h-[2px] bg-[#E10717]" />
-            <span className="text-[#7B7B7B] text-sm uppercase tracking-widest">Cotiza</span>
-            <div className="w-12 h-[2px] bg-[#E10717]" />
+            <div className="w-24 md:w-56 lg:w-72 h-[2px] bg-[#E10717]" />
+            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+            </svg>
+            <div className="w-24 md:w-56 lg:w-72 h-[2px] bg-[#E10717]" />
           </div>
           
           <h2 className="text-4xl md:text-5xl font-bold leading-tight gradient-title-silver text-depth">
-            Hablemos de <AnimatedGradientText>su próximo hito.</AnimatedGradientText>
+            Hablemos de <AnimatedGradientText>su próximo hito</AnimatedGradientText>
           </h2>
         </motion.div>
 
@@ -107,14 +116,40 @@ ${mensaje}`;
           className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-20"
         >
           {/* Left column - Content */}
-          <motion.div variants={slideInLeft}>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            viewport={{ once: true }}
+          >
             <p className="hidden lg:block text-lg text-[#7B7B7B] mb-8 leading-relaxed">
               Cada gran proyecto comienza con una conversación técnica. Cuéntenos qué busca para su vehículo y definamos juntos la mejor estrategia para cristalizar ese rendimiento.
             </p>
             
             {/* Contact info */}
             <div className="space-y-4">
-              <div className="flex items-center gap-4 text-[#7B7B7B]">
+              {/* Phone */}
+              <a href="tel:+56932417147" className="flex items-center gap-4 text-[#7B7B7B] group hover:text-[#E10717] transition-colors duration-300 w-fit">
+                <div className="w-10 h-10 flex items-center justify-center bg-[#1C1C1C] rounded-xl group-hover:border-[#E10717]/50 border border-transparent transition-all">
+                  <svg className="w-5 h-5 text-[#E10717]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                  </svg>
+                </div>
+                <span>+56 9 3241 7147</span>
+              </a>
+              
+              {/* Email */}
+              <a href="mailto:cotiza@oscarperformance.cl" className="flex items-center gap-4 text-[#7B7B7B] group hover:text-[#E10717] transition-colors duration-300 w-fit">
+                <div className="w-10 h-10 flex items-center justify-center bg-[#1C1C1C] rounded-xl group-hover:border-[#E10717]/50 border border-transparent transition-all">
+                  <svg className="w-5 h-5 text-[#E10717]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                  </svg>
+                </div>
+                <span>cotiza@oscarperformance.cl</span>
+              </a>
+
+              {/* Address */}
+              <div className="flex items-center gap-4 text-[#7B7B7B] w-fit">
                 <div className="w-10 h-10 flex items-center justify-center bg-[#1C1C1C] rounded-xl">
                   <svg className="w-5 h-5 text-[#E10717]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -123,31 +158,16 @@ ${mensaje}`;
                 </div>
                 <span>Región Metropolitana & Valparaíso</span>
               </div>
-              
-              <div className="flex items-center gap-4 text-[#7B7B7B]">
-                <div className="w-10 h-10 flex items-center justify-center bg-[#1C1C1C] rounded-xl">
-                  <svg className="w-5 h-5 text-[#E10717]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                  </svg>
-                </div>
-                <a href="tel:+56932417147" className="text-[#7B7B7B] hover:text-[#E10717] transition-colors duration-300">
-                  +56 9 3241 7147
-                </a>
-              </div>
-              
-              <div className="flex items-center gap-4 text-[#7B7B7B]">
-                <div className="w-10 h-10 flex items-center justify-center bg-[#1C1C1C] rounded-xl">
-                  <svg className="w-5 h-5 text-[#E10717]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                  </svg>
-                </div>
-                <span>cotiza@oscarperformance.cl</span>
-              </div>
             </div>
           </motion.div>
           
           {/* Right column - Form */}
-          <motion.div variants={slideInRight}>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
@@ -274,8 +294,39 @@ ${mensaje}`;
                     value={formData.motor}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-[#1C1C1C] border border-[#7B7B7B]/30 rounded-xl text-white placeholder-[#7B7B7B] placeholder:text-sm md:placeholder:text-base focus:outline-none focus:border-[#E10717] transition-colors duration-300"
-                    placeholder="Ej: 2.0 Turbo, Diesel..."
+                    placeholder="Ej: 2.0 Turbo"
                   />
+                </div>
+              </div>
+
+              {/* Fuel Switch Row */}
+              <div>
+                <label className="block text-sm text-[#7B7B7B] mb-2">
+                  Tipo de Combustible
+                </label>
+                <div className="flex bg-[#1C1C1C] rounded-xl p-1 border border-[#7B7B7B]/30 w-full relative h-[50px]">
+                  <button
+                    type="button"
+                    onClick={() => setCombustible('Bencina')}
+                    className={`flex-1 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center ${
+                      formData.combustible === 'Bencina' 
+                        ? 'bg-[#E10717] text-white shadow-lg' 
+                        : 'text-[#7B7B7B] hover:text-white'
+                    }`}
+                  >
+                    Bencina
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCombustible('Diesel')}
+                    className={`flex-1 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center ${
+                      formData.combustible === 'Diesel' 
+                        ? 'bg-[#E10717] text-white shadow-lg' 
+                        : 'text-[#7B7B7B] hover:text-white'
+                    }`}
+                  >
+                    Diesel
+                  </button>
                 </div>
               </div>
               
@@ -294,25 +345,27 @@ ${mensaje}`;
                 />
               </div>
               
-              <Button 
-                type="submit" 
-                variant="primary" 
-                size="lg" 
-                className="w-full"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center gap-2">
-                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Enviando...
-                  </span>
-                ) : (
-                  "Solicitar Evaluación"
-                )}
-              </Button>
+              <div className="flex justify-center py-6">
+                <Button 
+                  type="submit" 
+                  variant="primary" 
+                  size="md" 
+                  className="w-fit !py-3 !px-8 whitespace-nowrap"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Enviando...
+                    </span>
+                  ) : (
+                    "Solicitar Evaluación"
+                  )}
+                </Button>
+              </div>
               
               {/* Success message */}
               {submitted && (

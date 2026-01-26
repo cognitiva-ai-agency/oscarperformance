@@ -9,10 +9,7 @@ const About = dynamic(() => import("@/components/sections/About"), {
   ssr: true,
 });
 
-const Services = dynamic(() => import("@/components/sections/Services"), {
-  loading: () => <div className="min-h-[400px]" />,
-  ssr: true,
-});
+
 
 const Brands = dynamic(() => import("@/components/sections/Brands"), {
   loading: () => <div className="min-h-[200px]" />,
@@ -24,7 +21,7 @@ const Difference = dynamic(() => import("@/components/sections/Difference"), {
   ssr: true,
 });
 
-const Contact = dynamic(() => import("@/components/sections/Contact"), {
+const Cotiza = dynamic(() => import("@/components/sections/Cotiza"), {
   loading: () => <div className="min-h-[600px]" />,
   ssr: true,
 });
@@ -53,11 +50,10 @@ export default function Home() {
         <TracingBeam className="px-6">
           <div className="relative z-10">
             <About />
-            <Services />
             <ServicesGrid />
             <Brands />
             <Difference />
-            <Contact />
+            <Cotiza />
           </div>
         </TracingBeam>
       </main>

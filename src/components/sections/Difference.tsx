@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+
 import Container from "../ui/Container";
 import AnimatedGradientText from "../ui/AnimatedGradientText";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
@@ -41,50 +41,8 @@ const highlights = [
 ];
 
 export default function Difference() {
-  const iconsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    // Only animate on desktop for perf
-    const isMobileDevice = window.matchMedia("(max-width: 768px)").matches;
-    if (isMobileDevice) return;
-
-    const setupDifferenceAnimations = async () => {
-        const { gsap } = await import("gsap");
-        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Animated icon entrance with rotation
-        iconsRef.current.forEach((icon, index) => {
-          if (!icon) return;
-
-          gsap.fromTo(
-            icon,
-            { 
-              scale: 0, 
-              rotation: -180,
-              opacity: 0 
-            },
-            {
-              scale: 1,
-              rotation: 0,
-              opacity: 1,
-              duration: 1,
-              delay: index * 0.2,
-              ease: "back.out(1.7)",
-              scrollTrigger: {
-                trigger: icon,
-                start: "top 80%",
-              },
-            }
-          );
-        });
-    };
-
-    setupDifferenceAnimations();
-  }, []);
-
   return (
-    <section id="diferencia" className="relative py-24 lg:py-32 overflow-hidden">
+    <section id="diferencia" className="relative pt-8 pb-24 lg:pt-12 lg:pb-32 overflow-hidden">
       <Container className="relative z-10">
         <motion.div
           variants={staggerContainer}
@@ -95,16 +53,18 @@ export default function Difference() {
           {/* Section header */}
           <motion.div variants={fadeInUp} className="text-center mb-16">
             <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="w-12 h-[2px] bg-[#E10717]" />
-              <span className="text-[#7B7B7B] text-sm uppercase tracking-widest">Por qué elegirnos</span>
-              <div className="w-12 h-[2px] bg-[#E10717]" />
+              <div className="w-24 md:w-56 lg:w-72 h-[2px] bg-[#E10717]" />
+              <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+              </svg>
+              <div className="w-24 md:w-56 lg:w-72 h-[2px] bg-[#E10717]" />
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-title-silver text-depth">
-              Por qué <AnimatedGradientText>confiar en nosotros</AnimatedGradientText>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 gradient-title-silver text-depth">
+                Su vehículo en <AnimatedGradientText>las mejores manos</AnimatedGradientText>
             </h2>
             <p className="text-lg text-[#7B7B7B] max-w-2xl mx-auto">
-              La confianza es la base de nuestra relación. Nos diferenciamos por un mindset de mejora continua y una transparencia absoluta en cada proceso.
+              La confianza se construye con resultados. Nos diferenciamos por un mindset de mejora continua y una transparencia absoluta en cada proceso técnico.
             </p>
           </motion.div>
           
@@ -113,15 +73,14 @@ export default function Difference() {
             {highlights.map((item, index) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
+                transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
                 className="relative group text-center"
               >
-                {/* Icon container with GSAP animation */}
+                {/* Icon container */}
                 <div 
-                  ref={(el) => { iconsRef.current[index] = el; }}
                   className="inline-flex items-center justify-center w-20 h-20 mb-6 bg-[#1C1C1C] border border-[#7B7B7B]/30 rounded-xl text-[#E10717] transition-all duration-300 group-hover:border-[#E10717] group-hover:shadow-lg group-hover:shadow-[#E10717]/20"
                 >
                   {item.icon}
