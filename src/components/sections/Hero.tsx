@@ -33,14 +33,12 @@ export default function Hero() {
           {/* Main heading - Optimized for LCP on Mobile */}
           {/* We bypass Framer Motion on the H1 to ensure immediate rendering (LCP) */}
           {/* Main heading - Optimized for LCP on Mobile */}
-          <motion.h1 
-            variants={fadeInUp}
-            initial="hidden"
-            animate="visible"
-            className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 gradient-title-silver text-depth"
+          {/* Main heading - Optimized for LCP on Mobile */}
+          <h1 
+            className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 gradient-title-silver text-depth animate-in fade-in slide-in-from-bottom-4 duration-1000 fill-mode-backwards"
           >
             Ingeniería de vanguardia para el{"\u00A0"}<AnimatedGradientText>performance de su motor.</AnimatedGradientText>
-          </motion.h1>
+          </h1>
           
           {/* Subtitle */}
           <motion.p 

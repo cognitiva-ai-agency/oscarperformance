@@ -56,6 +56,7 @@ export default function BrandsClient({ brands }: BrandsClientProps) {
                   width={brand.width}
                   height={brand.height}
                   className="w-auto h-full object-contain"
+                  sizes="(max-width: 768px) 150px, 200px"
                 />
               </div>
             </div>
