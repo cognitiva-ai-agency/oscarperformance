@@ -12,7 +12,9 @@ export default function Contact() {
     nombre: "",
     email: "",
     telefono: "",
-    vehiculo: "",
+    comuna: "",
+    marca: "",
+    modelo: "",
     anio: "",
     motor: "",
     mensaje: "",
@@ -33,14 +35,16 @@ export default function Contact() {
     setIsSubmitting(true);
     
     // Construct WhatsApp message
-    const { nombre, email, telefono, vehiculo, anio, motor, mensaje } = formData;
+    // Construct WhatsApp message
+    const { nombre, email, telefono, comuna, marca, modelo, anio, motor, mensaje } = formData;
     const whatsappMessage = `Hola Os Car Performance, me gustaría solicitar una evaluación.
 
 *Datos del Cliente*:
 • Nombre: ${nombre}
 • Email: ${email}
 • Teléfono: ${telefono}
-• Vehículo: ${vehiculo}
+• Comuna: ${comuna}
+• Vehículo: ${marca} ${modelo}
 • Año: ${anio}
 • Motor: ${motor}
 
@@ -55,7 +59,7 @@ ${mensaje}`;
       
       setIsSubmitting(false);
       setSubmitted(true);
-      setFormData({ nombre: "", email: "", telefono: "", vehiculo: "", anio: "", motor: "", mensaje: "" });
+      setFormData({ nombre: "", email: "", telefono: "", comuna: "", marca: "", modelo: "", anio: "", motor: "", mensaje: "" });
       
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitted(false), 5000);
@@ -196,17 +200,49 @@ ${mensaje}`;
                 </div>
                 
                 <div>
-                  <label htmlFor="vehiculo" className="block text-sm text-[#7B7B7B] mb-2">
-                    Vehículo
+                  <label htmlFor="comuna" className="block text-sm text-[#7B7B7B] mb-2">
+                    Comuna
                   </label>
                   <input
                     type="text"
-                    id="vehiculo"
-                    name="vehiculo"
-                    value={formData.vehiculo}
+                    id="comuna"
+                    name="comuna"
+                    value={formData.comuna}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-[#1C1C1C] border border-[#7B7B7B]/30 rounded-xl text-white placeholder-[#7B7B7B] focus:outline-none focus:border-[#E10717] transition-colors duration-300"
-                    placeholder="Marca y modelo"
+                    placeholder="Tu comuna"
+                  />
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="marca" className="block text-sm text-[#7B7B7B] mb-2">
+                    Marca
+                  </label>
+                  <input
+                    type="text"
+                    id="marca"
+                    name="marca"
+                    value={formData.marca}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-[#1C1C1C] border border-[#7B7B7B]/30 rounded-xl text-white placeholder-[#7B7B7B] focus:outline-none focus:border-[#E10717] transition-colors duration-300"
+                    placeholder="Ej: BMW"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="modelo" className="block text-sm text-[#7B7B7B] mb-2">
+                    Modelo
+                  </label>
+                  <input
+                    type="text"
+                    id="modelo"
+                    name="modelo"
+                    value={formData.modelo}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-[#1C1C1C] border border-[#7B7B7B]/30 rounded-xl text-white placeholder-[#7B7B7B] focus:outline-none focus:border-[#E10717] transition-colors duration-300"
+                    placeholder="Ej: 320i"
                   />
                 </div>
               </div>
