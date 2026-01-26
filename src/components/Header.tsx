@@ -303,7 +303,7 @@ export default function Header() {
                       }
                     }
                   }}
-                  className="space-y-2 flex flex-col items-center w-full"
+                  className="space-y-4 flex flex-col items-center w-full"
                 >
                 {navLinks.map((link) => {
                   const isActive = activeSection === link.href.substring(1);
