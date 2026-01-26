@@ -2,59 +2,70 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import Image from "next/image";
 import Container from "../ui/Container";
 import AnimatedGradientText from "../ui/AnimatedGradientText";
 import { fadeInUp, slideInLeft, slideInRight, staggerContainer } from "@/lib/animations";
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 export default function About() {
   const statsRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Counter animation for stats
-    if (statsRef.current) {
-      const counters = statsRef.current.querySelectorAll(".stat-number");
-      
-      counters.forEach((counter) => {
-        const target = counter.getAttribute("data-target");
-        if (!target) return;
+    // Check for mobile to avoid heavy GSAP on entry
+    const isMobileDevice = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobileDevice) return;
 
-        ScrollTrigger.create({
-          trigger: counter,
-          start: "top 80%",
-          onEnter: () => {
-            gsap.to(counter, {
-              innerHTML: target,
-              duration: 2,
-              snap: { innerHTML: 1 },
-              ease: "power2.out",
+    const setupAboutAnimations = async () => {
+        const { gsap } = await import("gsap");
+        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Counter animation for stats
+        if (statsRef.current) {
+          const counters = statsRef.current.querySelectorAll(".stat-number");
+          
+          counters.forEach((counter) => {
+            const target = counter.getAttribute("data-target");
+            if (!target) return;
+
+            ScrollTrigger.create({
+              trigger: counter,
+              start: "top 80%",
+              onEnter: () => {
+                gsap.to(counter, {
+                  innerHTML: target,
+                  duration: 2,
+                  snap: { innerHTML: 1 },
+                  ease: "power2.out",
+                });
+              },
             });
-          },
-        });
-      });
-    }
-
-    // Image reveal animation
-    if (imageRef.current) {
-      gsap.fromTo(
-        imageRef.current,
-        { clipPath: "inset(0 100% 0 0)" },
-        {
-          clipPath: "inset(0 0% 0 0)",
-          duration: 1.5,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: imageRef.current,
-            start: "top 70%",
-          },
+          });
         }
-      );
-    }
+
+        // Image reveal animation
+        if (imageRef.current) {
+          gsap.fromTo(
+            imageRef.current,
+            { clipPath: "inset(0 100% 0 0)" },
+            {
+              clipPath: "inset(0 0% 0 0)",
+              duration: 1.5,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: imageRef.current,
+                start: "top 70%",
+              },
+            }
+          );
+        }
+    };
+
+    setupAboutAnimations();
   }, []);
 
   return (

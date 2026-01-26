@@ -4,58 +4,18 @@ import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
-export const TracingBeam = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
+const DesktopBeam = ({ 
+  scrollYProgress, 
+  svgHeight, 
+  y1, 
+  y2 
+}: { 
+  scrollYProgress: any; 
+  svgHeight: number; 
+  y1: any; 
+  y2: any; 
 }) => {
-  const isMobile = useIsMobile();
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [svgHeight, setSvgHeight] = useState(0);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setSvgHeight(contentRef.current.offsetHeight);
-    }
-  }, []);
-
-  const y1 = useSpring(
-    useTransform(scrollYProgress, [0, 0.8], [50, svgHeight]),
-    {
-      stiffness: 500,
-      damping: 90,
-    }
-  );
-  const y2 = useSpring(
-    useTransform(scrollYProgress, [0, 1], [50, svgHeight - 200]),
-    {
-      stiffness: 500,
-      damping: 90,
-    }
-  );
-
-  // On mobile, skip the expensive beam animation entirely
-  if (isMobile) {
     return (
-      <div className={cn("relative w-full max-w-4xl mx-auto h-full", className)}>
-        {children}
-      </div>
-    );
-  }
-
-  return (
-    <motion.div
-      ref={ref}
-      className={cn("relative w-full max-w-4xl mx-auto h-full", className)}
-    >
       <div className="absolute -left-4 md:-left-20 top-3">
         <motion.div
           transition={{
@@ -127,6 +87,61 @@ export const TracingBeam = ({
           </defs>
         </svg>
       </div>
+    );
+};
+
+export const TracingBeam = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  const isMobile = useIsMobile();
+  const ref = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [svgHeight, setSvgHeight] = useState(0);
+
+  // Still need to call hooks at top level, but we can avoid the heavy ones if we separate logic
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setSvgHeight(contentRef.current.offsetHeight);
+    }
+  }, []);
+
+  const y1 = useSpring(
+    useTransform(scrollYProgress, [0, 0.8], [50, svgHeight]),
+    {
+      stiffness: 500,
+      damping: 90,
+    }
+  );
+  const y2 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [50, svgHeight - 200]),
+    {
+      stiffness: 500,
+      damping: 90,
+    }
+  );
+
+  return (
+    <motion.div
+      ref={ref}
+      className={cn("relative w-full max-w-4xl mx-auto h-full", className)}
+    >
+      {!isMobile && (
+        <DesktopBeam 
+            scrollYProgress={scrollYProgress} 
+            svgHeight={svgHeight} 
+            y1={y1} 
+            y2={y2} 
+        />
+      )}
       <div ref={contentRef}>{children}</div>
     </motion.div>
   );

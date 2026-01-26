@@ -2,13 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Container from "../ui/Container";
 import AnimatedGradientText from "../ui/AnimatedGradientText";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const highlights = [
   {
@@ -48,31 +44,43 @@ export default function Difference() {
   const iconsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    // Animated icon entrance with rotation
-    iconsRef.current.forEach((icon, index) => {
-      if (!icon) return;
+    // Only animate on desktop for perf
+    const isMobileDevice = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobileDevice) return;
 
-      gsap.fromTo(
-        icon,
-        { 
-          scale: 0, 
-          rotation: -180,
-          opacity: 0 
-        },
-        {
-          scale: 1,
-          rotation: 0,
-          opacity: 1,
-          duration: 1,
-          delay: index * 0.2,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: icon,
-            start: "top 80%",
-          },
-        }
-      );
-    });
+    const setupDifferenceAnimations = async () => {
+        const { gsap } = await import("gsap");
+        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animated icon entrance with rotation
+        iconsRef.current.forEach((icon, index) => {
+          if (!icon) return;
+
+          gsap.fromTo(
+            icon,
+            { 
+              scale: 0, 
+              rotation: -180,
+              opacity: 0 
+            },
+            {
+              scale: 1,
+              rotation: 0,
+              opacity: 1,
+              duration: 1,
+              delay: index * 0.2,
+              ease: "back.out(1.7)",
+              scrollTrigger: {
+                trigger: icon,
+                start: "top 80%",
+              },
+            }
+          );
+        });
+    };
+
+    setupDifferenceAnimations();
   }, []);
 
   return (

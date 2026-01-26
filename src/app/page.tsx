@@ -3,11 +3,31 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Services from "@/components/sections/Services";
-import Brands from "@/components/sections/Brands";
-import Difference from "@/components/sections/Difference";
-import Contact from "@/components/sections/Contact";
+// Lazy load all sections for maximum performance
+const About = dynamic(() => import("@/components/sections/About"), {
+  loading: () => <div className="min-h-[400px]" />,
+  ssr: true,
+});
+
+const Services = dynamic(() => import("@/components/sections/Services"), {
+  loading: () => <div className="min-h-[400px]" />,
+  ssr: true,
+});
+
+const Brands = dynamic(() => import("@/components/sections/Brands"), {
+  loading: () => <div className="min-h-[200px]" />,
+  ssr: true,
+});
+
+const Difference = dynamic(() => import("@/components/sections/Difference"), {
+  loading: () => <div className="min-h-[400px]" />,
+  ssr: true,
+});
+
+const Contact = dynamic(() => import("@/components/sections/Contact"), {
+  loading: () => <div className="min-h-[600px]" />,
+  ssr: true,
+});
 
 // Lazy load heavy components for better performance
 const ServicesGrid = dynamic(
@@ -33,6 +53,7 @@ export default function Home() {
         <TracingBeam className="px-6">
           <div className="relative z-10">
             <About />
+            <Services />
             <ServicesGrid />
             <Brands />
             <Difference />

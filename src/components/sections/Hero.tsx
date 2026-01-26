@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Container from "../ui/Container";
 import Button from "../ui/Button";
 import AnimatedGradientText from "../ui/AnimatedGradientText";
@@ -12,8 +10,6 @@ import { smoothScrollTo } from "@/lib/smoothScroll";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
 import EngineBackground from "../ui/EngineBackground";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -37,31 +33,39 @@ export default function Hero() {
         return; // EXIT: Do not run any GSAP on mobile
     }
 
-    // Smooth heading animation (DESKTOP ONLY)
-    if (headingRef.current) {
-      gsap.fromTo(
-        headingRef.current,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          delay: 0.3,
-        }
-      );
-    }
+    const setupAnimations = async () => {
+        const { gsap } = await import("gsap");
+        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+        gsap.registerPlugin(ScrollTrigger);
 
-    // CTA pulse animation (desktop only)
-    if (ctaRef.current) {
-      gsap.to(ctaRef.current, {
-        boxShadow: "0 0 40px rgba(225, 7, 23, 0.6)",
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "power2.inOut",
-      });
-    }
+        // Smooth heading animation (DESKTOP ONLY)
+        if (headingRef.current) {
+          gsap.fromTo(
+            headingRef.current,
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 1.2,
+              ease: "power3.out",
+              delay: 0.3,
+            }
+          );
+        }
+
+        // CTA pulse animation (desktop only)
+        if (ctaRef.current) {
+          gsap.to(ctaRef.current, {
+            boxShadow: "0 0 40px rgba(225, 7, 23, 0.6)",
+            duration: 1.5,
+            repeat: -1,
+            yoyo: true,
+            ease: "power2.inOut",
+          });
+        }
+    };
+
+    setupAnimations();
   }, []); // Run once on mount
 
   return (

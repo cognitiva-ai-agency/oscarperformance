@@ -2,14 +2,12 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Container from "../ui/Container";
 import ServiceCard from "../ui/ServiceCard";
 import AnimatedGradientText from "../ui/AnimatedGradientText";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 const services = [
   {
@@ -56,35 +54,47 @@ export default function Services() {
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    // Title reveal animation
-    if (titleRef.current) {
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: 50, rotateX: -20 },
-        {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          duration: 1,
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 80%",
-          },
-        }
-      );
-    }
+    // Optimized for Mobile: skipping GSAP on entry
+    const isMobileDevice = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobileDevice) return;
 
-    // Section background animation
-    if (sectionRef.current) {
-      gsap.to(sectionRef.current, {
-        backgroundColor: "#ffffff",
-        duration: 1,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 50%",
-        },
-      });
-    }
+    const setupServicesAnimations = async () => {
+        const { gsap } = await import("gsap");
+        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Title reveal animation
+        if (titleRef.current) {
+          gsap.fromTo(
+            titleRef.current,
+            { opacity: 0, y: 50, rotateX: -20 },
+            {
+              opacity: 1,
+              y: 0,
+              rotateX: 0,
+              duration: 1,
+              scrollTrigger: {
+                trigger: titleRef.current,
+                start: "top 80%",
+              },
+            }
+          );
+        }
+
+        // Section background animation
+        if (sectionRef.current) {
+          gsap.to(sectionRef.current, {
+            backgroundColor: "#ffffff",
+            duration: 1,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 50%",
+            },
+          });
+        }
+    };
+
+    setupServicesAnimations();
   }, []);
 
   return (
