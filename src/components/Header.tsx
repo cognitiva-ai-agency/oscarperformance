@@ -179,10 +179,10 @@ export default function Header() {
           <div 
             className={`flex items-center transition-all duration-500 ease-out md:relative md:left-0 md:translate-x-0 md:top-0 md:z-10 ${
               isMobileMenuOpen 
-                ? "absolute left-1/2 -translate-x-1/2 top-2 z-30 pointer-events-none" 
+                ? "absolute left-1/2 -translate-x-1/2 -top-6 z-30 pointer-events-none" 
                 : isScrolled
                   ? "relative z-10" // Scrolled = Left aligned (flow)
-                  : "absolute left-1/2 -translate-x-1/2 top-6 z-10" // Top = Centered
+                  : "absolute left-1/2 -translate-x-1/2 top-40 z-10" // Top = Centered
             }`}
             style={{ 
               transitionProperty: "transform, left",
@@ -210,7 +210,13 @@ export default function Header() {
                 height={84}
                 sizes="(max-width: 768px) 180px, 252px"
                 quality={85}
-                className={`transition-all duration-200 ${isScrolled ? "h-20" : "h-28"} w-auto`}
+                className={`transition-all duration-200 ${
+                  isMobileMenuOpen 
+                    ? "h-28 w-auto" 
+                    : isScrolled 
+                      ? "h-20 w-auto" 
+                      : "w-[90vw] scale-[1.7] h-auto md:w-auto md:h-28 md:scale-100"
+                }`}
                 style={{ 
                   transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
                   objectFit: "contain",
@@ -283,69 +289,34 @@ export default function Header() {
           </button>
         </nav>
 
-        {/* Mobile Menu - Refined with faster animations */}
-        {isMobileMenuOpen && (
-          <div
-            className={`md:hidden overflow-hidden transition-all duration-200 ease-out relative z-[80] ${
-               showMenuItems ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className={`${isScrolled ? "pt-32" : "pt-36"} pb-4 border-t border-[#7B7B7B]/10 flex flex-col items-center`}>
-              {showMenuItems && (
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    visible: {
-                      transition: {
-                        staggerChildren: 0.04,
-                        delayChildren: 0
-                      }
-                    }
-                  }}
-                  className="space-y-4 flex flex-col items-center w-full"
-                >
-                {navLinks.map((link) => {
-                  const isActive = activeSection === link.href.substring(1);
-                  return (
-                    <motion.a
-                      key={link.name}
-                      variants={{
-                        hidden: { opacity: 0, y: 10 },
-                        visible: { 
-                          opacity: 1, 
-                          y: 0,
-                          transition: {
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 20
-                          }
-                        }
-                      }}
-                      href={link.href}
-                      onClick={(e) => handleNavClick(e, link.href)}
-                      className={`relative flex items-center text-xs uppercase tracking-wider transition-colors duration-200 font-bold ${
-                        isActive ? "text-white" : "text-[#7B7B7B] hover:text-white"
-                      }`}
-                    >
-                      {/* Active Indicator Line - Symmetric */}
-                      {isActive && (
-                        <span 
-                            className="w-8 h-[2px] bg-[#E10717] mr-3 animate-in fade-in slide-in-from-right-2 duration-200" 
-                        />
-                      )}
-                      {link.name}
-                      {isActive && (
-                        <span 
-                            className="w-8 h-[2px] bg-[#E10717] ml-3 animate-in fade-in slide-in-from-left-2 duration-200" 
-                        />
-                      )}
-                    </motion.a>
-                  );
-                })}
-                
-                {/* Centered Button Container */}
-                <motion.div 
+        {/* Mobile Menu - Stabilized structure to prevent hydration errors */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-200 ease-out relative z-[80] ${
+              isMobileMenuOpen && showMenuItems ? "max-h-[500px] opacity-100 visible" : "max-h-0 opacity-0 invisible"
+          }`}
+          aria-hidden={!isMobileMenuOpen}
+        >
+          <div className={`${isScrolled ? "pt-32" : "pt-36"} pb-4 border-t border-[#7B7B7B]/10 flex flex-col items-center`}>
+            {/* Always render children structure but hide content to keep fiber tree stable */}
+            <motion.div
+              initial={false}
+              animate={isMobileMenuOpen && showMenuItems ? "visible" : "hidden"}
+              variants={{
+                visible: {
+                  transition: {
+                    staggerChildren: 0.04,
+                    delayChildren: 0
+                  }
+                },
+                hidden: {}
+              }}
+              className="space-y-4 flex flex-col items-center w-full"
+            >
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.substring(1);
+              return (
+                <motion.a
+                  key={link.name}
                   variants={{
                     hidden: { opacity: 0, y: 10 },
                     visible: { 
@@ -358,26 +329,60 @@ export default function Header() {
                       }
                     }
                   }}
-                  className="w-full flex justify-center pt-4"
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`relative flex items-center text-xs uppercase tracking-wider transition-colors duration-200 font-bold ${
+                    isActive ? "text-white" : "text-[#7B7B7B] hover:text-white"
+                  }`}
                 >
-                  <Button 
-                    variant="primary" 
-                    size="sm" 
-                    href="#cotiza" 
-                    className="w-fit !py-2 !px-6 flex items-center justify-center gap-2 group whitespace-nowrap"
-                    onClick={(e) => handleNavClick(e as any, "#cotiza")}
-                  >
-                    <span>Cotiza</span>
-                    <svg className="w-4 h-4 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            )}
+                  {/* Active Indicator Line - Symmetric */}
+                  {isActive && (
+                    <span 
+                        className="w-8 h-[2px] bg-[#E10717] mr-3 animate-in fade-in slide-in-from-right-2 duration-200" 
+                    />
+                  )}
+                  {link.name}
+                  {isActive && (
+                    <span 
+                        className="w-8 h-[2px] bg-[#E10717] ml-3 animate-in fade-in slide-in-from-left-2 duration-200" 
+                    />
+                  )}
+                </motion.a>
+              );
+            })}
+            
+            {/* Centered Button Container */}
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 10 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 20
+                  }
+                }
+              }}
+              className="w-full flex justify-center pt-4"
+            >
+              <Button 
+                variant="primary" 
+                size="sm" 
+                href="#cotiza" 
+                className="w-fit !py-2 !px-6 flex items-center justify-center gap-2 group whitespace-nowrap"
+                onClick={(e) => handleNavClick(e as any, "#cotiza")}
+              >
+                <span>Cotiza</span>
+                <svg className="w-4 h-4 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Button>
+            </motion.div>
+          </motion.div>
           </div>
         </div>
-        )}
       </Container>
     </header>
     </>

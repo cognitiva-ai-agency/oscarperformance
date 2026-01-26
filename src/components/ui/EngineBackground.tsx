@@ -14,13 +14,28 @@ export default function EngineBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Set canvas size
+    // Resize observer to handle container size changes (layout shift, mobile address bar, etc)
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (canvas.parentElement) {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+      }
     };
+    
+    // Initial size
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+
+    // Watch parent element for any size change
+    const resizeObserver = new ResizeObserver(() => {
+        resizeCanvas();
+        // Re-init elements if physics depends on size
+        initPistons(); 
+        initGears();
+    });
+    
+    if (canvas.parentElement) {
+        resizeObserver.observe(canvas.parentElement);
+    }
 
     // Engine pistons animation
     class Piston {
@@ -187,7 +202,7 @@ export default function EngineBackground() {
     animate();
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      resizeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

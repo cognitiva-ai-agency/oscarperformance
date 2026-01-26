@@ -69,7 +69,7 @@ export default function About() {
   }, []);
 
   return (
-    <section id="nosotros" className="pt-8 pb-24 lg:pt-12 lg:pb-32 relative overflow-hidden">
+    <section id="nosotros" className="pt-12 pb-24 lg:pt-20 lg:pb-32 relative overflow-hidden bg-black">
       {/* Tech particle background removed */}
       
       <Container className="relative z-10">
@@ -82,15 +82,17 @@ export default function About() {
            className="text-center mb-16"
         >
           <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="w-24 md:w-56 lg:w-72 h-[2px] bg-[#E10717]" />
-            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-            </svg>
-            <div className="w-24 md:w-56 lg:w-72 h-[2px] bg-[#E10717]" />
+            <div className="w-16 md:w-32 h-[1px] bg-gradient-to-r from-transparent via-[#E10717] to-transparent opacity-70" />
+            <div className="p-2 rounded-full bg-[#E10717]/5 border border-[#E10717]/20">
+                <svg className="w-5 h-5 text-[#E10717]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                </svg>
+            </div>
+            <div className="w-16 md:w-32 h-[1px] bg-gradient-to-r from-transparent via-[#E10717] to-transparent opacity-70" />
           </div>
           
           <h2 className="text-4xl md:text-5xl font-bold leading-tight gradient-title-silver text-depth">
-            Socios en el camino a la <AnimatedGradientText>excelencia</AnimatedGradientText>
+            Detrás de Cada Mapa, Hay una <AnimatedGradientText>Mente de Ingeniería.</AnimatedGradientText>
           </h2>
         </motion.div>
 
@@ -112,10 +114,10 @@ export default function About() {
           >
             <div className="space-y-6 text-[#7B7B7B] leading-relaxed">
               <p className="text-lg">
-                Su automóvil tiene un potencial que aún no ha experimentado. En Os Car Performance, nuestro trabajo es articular tecnología de vanguardia y expertise técnico para liberar ese rendimiento oculto, garantizando una entrega de potencia fluida y segura.
+                En Oscar Performance, no somos simples instaladores de software; somos apasionados de la mecánica de alta precisión. El equipo que ves aquí combina años de experiencia en el motorsport y la ingeniería electrónica para devolverle a tu motor la agilidad que las restricciones de fábrica le quitaron.
               </p>
               <p className="text-lg">
-                No solo optimizamos software; potenciamos la ingeniería de su máquina para que cada trayecto sea una demostración de eficiencia y autoridad en la ruta.
+                No creemos en soluciones de "copiar y pegar". Cada integrante de nuestra firma entiende que tu vehículo es un ecosistema complejo. Por eso, aplicamos protocolos oficiales de Alientech y ciencia de datos para que cada ajuste sea seguro, reversible y, sobre todo, emocionante. Somos tus socios técnicos, comprometidos con la excelencia y la fiabilidad de tu motor en cada kilómetro.
               </p>
             </div>
             
@@ -123,25 +125,27 @@ export default function About() {
             <motion.div 
               ref={statsRef}
               variants={fadeInUp}
-              className="grid grid-cols-3 gap-8 mt-10 pt-10 border-t border-[#7B7B7B]/20"
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 pt-10 border-t border-[#7B7B7B]/20"
             >
-              <div>
+              <div className="flex flex-col items-center text-center">
                 <div className="text-3xl md:text-4xl font-bold text-[#E10717]">
                   +<span className="stat-number" data-target="9">9</span>
                 </div>
-                <div className="text-sm text-[#7B7B7B] mt-1">Años de experiencia</div>
+                <div className="text-sm text-[#7B7B7B] mt-1 font-medium uppercase tracking-wide">Años de experiencia</div>
               </div>
-              <div>
+              
+              <div className="flex flex-col items-center text-center">
                 <div className="text-3xl md:text-4xl font-bold text-[#E10717]">
                   <span className="stat-number" data-target="500">500</span>+
                 </div>
-                <div className="text-sm text-[#7B7B7B] mt-1">Vehículos optimizados</div>
+                <div className="text-sm text-[#7B7B7B] mt-1 font-medium uppercase tracking-wide">Vehículos optimizados</div>
               </div>
-              <div>
+              
+              <div className="flex flex-col items-center text-center">
                 <div className="text-3xl md:text-4xl font-bold text-[#E10717]">
                   <span className="stat-number" data-target="98">98</span>%
                 </div>
-                <div className="text-sm text-[#7B7B7B] mt-1">Satisfacción</div>
+                <div className="text-sm text-[#7B7B7B] mt-1 font-medium uppercase tracking-wide">Satisfacción</div>
               </div>
             </motion.div>
           </motion.div>
