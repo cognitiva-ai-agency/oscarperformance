@@ -109,7 +109,10 @@ export default function Configurator() {
     // Scroll to the beginning of the configurator section
     const configuradorSection = document.getElementById("configurador");
     if (configuradorSection) {
-      const headerOffset = 100; // Account for fixed header
+      // Use larger offset on mobile to account for mobile header size
+      const isMobile = window.innerWidth < 768;
+      const headerOffset = isMobile ? 120 : 100;
+      
       const elementPosition = configuradorSection.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       
