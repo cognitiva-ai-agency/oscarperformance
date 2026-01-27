@@ -328,32 +328,32 @@ export default function Configurator() {
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       {/* Horsepower */}
-                      <div className="bg-[#1C1C1C]/50 rounded-xl p-4 md:p-5 border border-white/5">
+                      <div className="bg-[#1C1C1C]/50 rounded-xl p-4 md:p-5 border border-white/5 overflow-hidden">
                         <div className="text-[#7B7B7B] text-xs uppercase tracking-wider mb-3 font-medium">Potencia (HP)</div>
-                        <div className="flex items-end justify-between gap-2">
-                          <div>
-                            <span className="text-white/50 text-sm line-through">{displayData.stock.hp}</span>
-                            <div className="text-white text-2xl md:text-3xl font-bold">
+                        <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-end sm:justify-between sm:gap-2">
+                          <div className="min-w-0 flex-1">
+                            <span className="text-white/50 text-xs sm:text-sm line-through">{displayData.stock.hp}</span>
+                            <div className="text-white text-xl sm:text-2xl md:text-3xl font-bold break-all">
                               {activeStage === "stage1" ? displayData.stage1.hp : displayData.stage2?.hp}
                             </div>
                           </div>
-                          <div className="text-[#E10717] font-bold text-base md:text-lg">
+                          <div className="text-[#E10717] font-bold text-sm sm:text-base md:text-lg whitespace-nowrap flex-shrink-0">
                             +{activeStage === "stage1" ? displayData.stage1.gainHpPercent : displayData.stage2?.gainHpPercent}%
                           </div>
                         </div>
                       </div>
 
                       {/* Torque */}
-                      <div className="bg-[#1C1C1C]/50 rounded-xl p-4 md:p-5 border border-white/5">
+                      <div className="bg-[#1C1C1C]/50 rounded-xl p-4 md:p-5 border border-white/5 overflow-hidden">
                         <div className="text-[#7B7B7B] text-xs uppercase tracking-wider mb-3 font-medium">Torque (NM)</div>
-                        <div className="flex items-end justify-between gap-2">
-                          <div>
-                            <span className="text-white/50 text-sm line-through">{displayData.stock.nm}</span>
-                            <div className="text-white text-2xl md:text-3xl font-bold">
+                        <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-end sm:justify-between sm:gap-2">
+                          <div className="min-w-0 flex-1">
+                            <span className="text-white/50 text-xs sm:text-sm line-through">{displayData.stock.nm}</span>
+                            <div className="text-white text-xl sm:text-2xl md:text-3xl font-bold break-all">
                               {activeStage === "stage1" ? displayData.stage1.nm : displayData.stage2?.nm}
                             </div>
                           </div>
-                          <div className="text-[#E10717] font-bold text-base md:text-lg">
+                          <div className="text-[#E10717] font-bold text-sm sm:text-base md:text-lg whitespace-nowrap flex-shrink-0">
                             +{activeStage === "stage1" ? displayData.stage1.gainNmPercent : displayData.stage2?.gainNmPercent}%
                           </div>
                         </div>
