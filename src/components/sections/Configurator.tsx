@@ -106,21 +106,31 @@ export default function Configurator() {
     setSelectedEngine("");
     setActiveStage("stage1");
     
-    // Scroll to the beginning of the configurator section
-    const configuradorSection = document.getElementById("configurador");
-    if (configuradorSection) {
-      // Use larger offset on mobile to account for mobile header size
-      const isMobile = window.innerWidth < 768;
-      const headerOffset = isMobile ? 120 : 100;
-      
-      const elementPosition = configuradorSection.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
+    // Add delay to ensure state updates complete before scrolling
+    setTimeout(() => {
+      const configuradorSection = document.getElementById("configurador");
+      if (configuradorSection) {
+        const isMobile = window.innerWidth < 768;
+        
+        if (isMobile) {
+          // On mobile, use scrollIntoView for more reliable positioning
+          configuradorSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        } else {
+          // Desktop: use existing offset approach
+          const headerOffset = 100;
+          const elementPosition = configuradorSection.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }
+    }, 100); // 100ms delay to ensure DOM updates
   };
 
   // Select styles - consistent premium dark look
