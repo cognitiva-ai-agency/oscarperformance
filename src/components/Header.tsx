@@ -10,6 +10,7 @@ import { smoothScrollTo } from "@/lib/smoothScroll";
 const navLinks = [
   { name: "Nosotros", href: "#nosotros" },
   { name: "Servicios", href: "#servicios" },
+  { name: "Calculadora", href: "#configurador" },
   { name: "Partners", href: "#partners" },
   { name: "Confianza", href: "#diferencia" },
 ];
@@ -24,6 +25,11 @@ const sectionIcons: Record<string, React.ReactNode> = {
   servicios: (
     <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.159.954c.023.136.154.234.292.217a6.973 6.973 0 002.365-.79c.125-.062.278-.04.383.056l.788.75c.382.363.382.96 0 1.322l-.635.604a.276.276 0 00-.07.284c.15.535.255 1.09.309 1.66.012.138.128.242.267.242h.866c.54 0 .977.444.977.986v1.085c0 .542-.437.986-.977.986h-.867c-.139 0-.255.104-.267.242a7.1 7.1 0 00-.31 1.66.276.276 0 00.07.284l.635.604c.382.363.382.96 0 1.322l-.788.75c-.105.096-.258.118-.383.056a6.974 6.974 0 00-2.365-.79.277.277 0 00-.292.217l-.159.955c-.09.541-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.159-.955a.276.276 0 00-.291-.217 6.975 6.975 0 00-2.365.79.275.275 0 00-.383-.056l-.788-.75a.936.936 0 010-1.322l.635-.604a.276.276 0 00.07-.284 7.096 7.096 0 00-.31-1.66.276.276 0 00-.266-.242h-.867c-.54 0-.977-.444-.977-.986V9.897c0-.542.437-.986.977-.986h.867c.139 0 .255-.104.266-.242.054-.57.16-1.124.31-1.66a.276.276 0 00-.07-.284l-.635-.604a.936.936 0 010-1.322l.788-.75c.105-.096.258-.118.383-.056a6.974 6.974 0 002.365.79.277.277 0 00.292-.217l.159-.954zM12 15a3 3 0 100-6 3 3 0 000 6z" />
+    </svg>
+  ),
+  configurador: (
+    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z" />
     </svg>
   ),
   partners: (
@@ -47,6 +53,7 @@ const sectionNames: Record<string, string> = {
   inicio: "INICIO",
   nosotros: "NOSOTROS",
   servicios: "SERVICIOS",
+  configurador: "CALCULADORA",
   partners: "PARTNERS",
   diferencia: "CONFIANZA",
   cotiza: "COTIZA"
@@ -316,7 +323,7 @@ export default function Header() {
               const isActive = activeSection === link.href.substring(1);
               return (
                 <motion.a
-                  key={link.name}
+                  key={`mobile-${link.href}`}
                   variants={{
                     hidden: { opacity: 0, y: 10 },
                     visible: { 
@@ -336,17 +343,17 @@ export default function Header() {
                   }`}
                 >
                   {/* Active Indicator Line - Symmetric */}
-                  {isActive && (
-                    <span 
-                        className="w-8 h-[2px] bg-[#E10717] mr-3 animate-in fade-in slide-in-from-right-2 duration-200" 
-                    />
-                  )}
+                  <span 
+                    className={`w-8 h-[2px] bg-[#E10717] mr-3 transition-opacity duration-200 ${
+                      isActive ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
                   {link.name}
-                  {isActive && (
-                    <span 
-                        className="w-8 h-[2px] bg-[#E10717] ml-3 animate-in fade-in slide-in-from-left-2 duration-200" 
-                    />
-                  )}
+                  <span 
+                    className={`w-8 h-[2px] bg-[#E10717] ml-3 transition-opacity duration-200 ${
+                      isActive ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
                 </motion.a>
               );
             })}

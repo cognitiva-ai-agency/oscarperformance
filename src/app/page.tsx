@@ -34,6 +34,13 @@ const ServicesGrid = dynamic(
   }
 );
 
+const Configurator = dynamic(
+  () => import("@/components/sections/Configurator"),
+  {
+    loading: () => <div className="min-h-[400px]" />,
+  }
+);
+
 const TracingBeam = dynamic(
   () => import("@/components/ui/tracing-beam").then((mod) => ({ default: mod.TracingBeam })),
   {
@@ -51,6 +58,7 @@ export default function Home() {
           <div className="relative z-10">
             <About />
             <ServicesGrid />
+            <Configurator />
             <Brands />
             <Difference />
             <Cotiza />

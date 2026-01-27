@@ -134,14 +134,14 @@ export const TracingBeam = ({
       ref={ref}
       className={cn("relative w-full max-w-4xl mx-auto h-full", className)}
     >
-      {!isMobile && (
+      <div className={isMobile ? "hidden" : "block"}>
         <DesktopBeam 
             scrollYProgress={scrollYProgress} 
             svgHeight={svgHeight} 
             y1={y1} 
             y2={y2} 
         />
-      )}
+      </div>
       <div ref={contentRef}>{children}</div>
     </motion.div>
   );
