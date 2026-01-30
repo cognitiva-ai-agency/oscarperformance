@@ -10,9 +10,9 @@ import { smoothScrollTo } from "@/lib/smoothScroll";
 const navLinks = [
   { name: "Nosotros", href: "/#nosotros" },
   { name: "Servicios", href: "/#servicios" },
-  { name: "Calculadora", href: "/#configurador" },
+  { name: "Calculadora", href: "/#calculadora" },
   { name: "Partners", href: "/#partners" },
-  { name: "Confianza", href: "/#diferencia" },
+  { name: "Confianza", href: "/#confianza" },
 ];
 
 const sectionIcons: Record<string, React.ReactNode> = {
@@ -53,9 +53,9 @@ const sectionNames: Record<string, string> = {
   inicio: "INICIO",
   nosotros: "NOSOTROS",
   servicios: "SERVICIOS",
-  configurador: "CALCULADORA",
+  calculadora: "CALCULADORA",
   partners: "PARTNERS",
-  diferencia: "CONFIANZA",
+  confianza: "CONFIANZA",
   cotiza: "COTIZA"
 };
 

@@ -41,7 +41,7 @@ const highlights = [
 
 export default function Difference() {
   return (
-    <section id="diferencia" className="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden bg-black">
+    <section id="confianza" className="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden bg-black">
       <Container className="relative z-10">
         <motion.div
           variants={staggerContainer}

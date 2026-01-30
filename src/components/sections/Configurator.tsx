@@ -108,7 +108,7 @@ export default function Configurator() {
     
     // Add delay to ensure state updates complete before scrolling
     setTimeout(() => {
-      const configuradorSection = document.getElementById("configurador");
+      const configuradorSection = document.getElementById("calculadora");
       if (configuradorSection) {
         const isMobile = window.innerWidth < 768;
         
@@ -148,7 +148,7 @@ export default function Configurator() {
   const labelClasses = "block text-[#7B7B7B] text-xs uppercase tracking-wider mb-2 font-medium";
 
   return (
-    <section id="configurador" className="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden bg-black">
+    <section id="calculadora" className="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden bg-black">
       {/* Ambient background glow */}
       <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#E10717]/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-[#1a1a1a]/30 rounded-full blur-[100px] pointer-events-none" />
