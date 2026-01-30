@@ -1,16 +1,27 @@
 export const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement | HTMLElement>, href: string) => {
   e.preventDefault();
-  // Handle empty targetId or hash only as scroll to top
+  
+  // Extract hash from absolute routes (/#section) or relative routes (#section)
+  let hash = '';
+  if (href.includes('#')) {
+    // Split by # and take the part after it
+    const parts = href.split('#');
+    hash = parts.length > 1 ? '#' + parts[1] : '#';
+  } else if (href === '/' || href === '') {
+    hash = '#';
+  }
+  
+  // Handle empty hash or scroll to top
   let elem: HTMLElement | null = null;
   let targetId = "";
 
-  if (href === "#" || href === "") {
+  if (hash === "#" || hash === "") {
     elem = document.body;
   } else {
     try {
       // Try finding by querySelector first (robust for #ids)
-      elem = document.querySelector(href);
-      targetId = href.replace("#", "");
+      elem = document.querySelector(hash);
+      targetId = hash.replace("#", "");
     } catch (e) {
       // Fallback if selector is invalid
       elem = null;
@@ -23,7 +34,7 @@ export const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement | HTMLEleme
   }
   
   // Use scroll to top logic if target is body or empty href
-  if (elem || (!targetId && href === "#")) {
+  if (elem || (!targetId && hash === "#")) {
     // Safety check: if elem is still null here and it's not a scroll-to-top, return
     if (!elem && targetId) return; 
     
