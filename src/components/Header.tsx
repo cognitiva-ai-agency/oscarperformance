@@ -8,11 +8,11 @@ import Button from "./ui/Button";
 import { smoothScrollTo } from "@/lib/smoothScroll";
 
 const navLinks = [
-  { name: "Nosotros", href: "#nosotros" },
-  { name: "Servicios", href: "#servicios" },
-  { name: "Calculadora", href: "#configurador" },
-  { name: "Partners", href: "#partners" },
-  { name: "Confianza", href: "#diferencia" },
+  { name: "Nosotros", href: "/#nosotros" },
+  { name: "Servicios", href: "/#servicios" },
+  { name: "Calculadora", href: "/#configurador" },
+  { name: "Partners", href: "/#partners" },
+  { name: "Confianza", href: "/#diferencia" },
 ];
 
 const sectionIcons: Record<string, React.ReactNode> = {
@@ -199,7 +199,7 @@ export default function Header() {
           >
             <a 
               ref={logoRef}
-              href="#" 
+              href="/" 
               className={`flex items-center will-change-transform transition-transform ease-out md:transition-none ${
                 isMobileMenuOpen ? "scale-[1.5]" : "scale-100"
               }`}
@@ -208,7 +208,7 @@ export default function Header() {
                 transitionDuration: "500ms",
                 transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)" // Match parent animation
               }}
-              onClick={(e) => handleNavClick(e as React.MouseEvent<HTMLAnchorElement>, "#")}
+              onClick={(e) => handleNavClick(e as React.MouseEvent<HTMLAnchorElement>, "/")}
             >
               <Image
                 src="/images/logo.png"
@@ -258,9 +258,9 @@ export default function Header() {
               <Button 
                 variant="primary" 
                 size="sm" 
-                href="#cotiza" 
+                href="/#cotiza" 
                 className="!py-2 !px-6 flex items-center gap-2 group whitespace-nowrap"
-                onClick={(e) => handleNavClick(e as any, "#cotiza")}
+                onClick={(e) => handleNavClick(e as any, "/#cotiza")}
               >
                 <span>Cotiza</span>
                 <svg className="w-4 h-4 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -377,9 +377,9 @@ export default function Header() {
               <Button 
                 variant="primary" 
                 size="sm" 
-                href="#cotiza" 
+                href="/#cotiza" 
                 className="w-fit !py-2 !px-6 flex items-center justify-center gap-2 group whitespace-nowrap"
-                onClick={(e) => handleNavClick(e as any, "#cotiza")}
+                onClick={(e) => handleNavClick(e as any, "/#cotiza")}
               >
                 <span>Cotiza</span>
                 <svg className="w-4 h-4 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

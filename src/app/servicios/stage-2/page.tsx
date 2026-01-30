@@ -13,8 +13,8 @@ export default function Stage2Page() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-black">
-        <div className="container mx-auto px-6 py-24 md:py-32">
+      <main className="min-h-screen bg-[#000000] pt-32">
+        <div className="container mx-auto px-6 py-12 md:py-20">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               Performance Avanzado{" "}

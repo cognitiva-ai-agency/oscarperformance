@@ -14,17 +14,17 @@ export default function AdBluePage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-black">
-        <div className="container mx-auto px-6 py-24 md:py-32">
+      <main className="min-h-screen bg-[#000000] pt-32">
+        <div className="container mx-auto px-6 py-12 md:py-20">
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 max-w-3xl mx-auto">
                 Solución Definitiva al Sistema{" "}
                 <span className="text-[#E10717]">AdBlue / SCR</span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed mb-8">
+              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
                 No dejes que una falla de software detenga tu motor.{" "}
                 <span className="text-white font-semibold">
                   Ingeniería electrónica
@@ -35,7 +35,7 @@ export default function AdBluePage() {
 
             {/* Problem Section */}
             <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 md:p-12 mb-12">
-              <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
+              <div className="space-y-6 text-gray-300 text-lg leading-relaxed max-w-3xl mx-auto">
                 <p className="text-xl font-semibold text-white">
                   ¿Ves la cuenta regresiva de "Arranque prohibido"?
                 </p>
