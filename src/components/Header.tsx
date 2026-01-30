@@ -59,6 +59,13 @@ const sectionNames: Record<string, string> = {
   cotiza: "COTIZA"
 };
 
+// Helper function to extract section ID from href (handles /#section and #section)
+const getSectionIdFromHref = (href: string): string => {
+  if (!href.includes('#')) return '';
+  const parts = href.split('#');
+  return parts[parts.length - 1] || '';
+};
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -97,7 +104,13 @@ export default function Header() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+            const sectionId = entry.target.id;
+            setActiveSection(sectionId);
+            
+            // Sync URL hash without page reload (only on home page)
+            if (sectionId && window.location.pathname === '/') {
+              window.history.replaceState(null, '', `/#${sectionId}`);
+            }
           }
         });
       },
@@ -130,6 +143,18 @@ export default function Header() {
         observer.disconnect();
         mutationObserver.disconnect();
     };
+  }, []);
+
+  // Initialize active section from URL hash on mount
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      // Extract section ID from hash (#section or /#section)
+      const sectionId = getSectionIdFromHref(hash);
+      if (sectionId) {
+        setActiveSection(sectionId);
+      }
+    }
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -242,14 +267,14 @@ export default function Header() {
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`relative group text-sm uppercase tracking-[0.2em] font-medium ${
-                    activeSection === link.href.substring(1) ? "text-white" : "text-[#7B7B7B]"
+                    activeSection === getSectionIdFromHref(link.href) ? "text-white" : "text-[#7B7B7B]"
                 }`}
               >
                 <span className="group-hover:text-white transition-colors duration-300">
                   {link.name}
                 </span>
-                <span className={`absolute -bottom-2 left-0 h-[1px] bg-[#E10717] transition-all duration-300 ${
-                    activeSection === link.href.substring(1) ? "w-full" : "w-0 group-hover:w-full"
+                <span className={`absolute -bottom-2 left-0 h-[2px] bg-[#E10717] transition-all duration-300 ${
+                    activeSection === getSectionIdFromHref(link.href) ? "w-full shadow-[0_0_8px_rgba(225,7,23,0.6)]" : "w-0 group-hover:w-full"
                 }`} />
               </a>
             ))}
@@ -320,7 +345,7 @@ export default function Header() {
               className="space-y-4 flex flex-col items-center w-full"
             >
             {navLinks.map((link) => {
-              const isActive = activeSection === link.href.substring(1);
+              const isActive = activeSection === getSectionIdFromHref(link.href);
               return (
                 <motion.a
                   key={`mobile-${link.href}`}
